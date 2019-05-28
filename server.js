@@ -6,6 +6,9 @@ const knex = require("knex");
 
 const register = require("./controllers/register");
 const signin = require("./controllers/signin");
+const profile = require("./controllers/profile");
+const fixtures = require("./controllers/fixtures");
+const image = require("./controllers/image");
 
 const db = knex({
   client: "pg",
@@ -63,69 +66,28 @@ app.get("/", (req, res) => {
 });
 
 // /signin --> POST = success/fail
-
 app.post("/signin", (req, res) => {
-  console.log("in signin");
   signin.handleSignin(req, res, db, bcrypt);
 });
 
 // /register --> POST = user
-
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
 });
 
 // *** Dependency injection
-
 app.get("/profile/:id", (req, res) => {
-  const { id } = req.params;
-  db.select("*")
-    .from("users")
-    .where({ id })
-    .then(user => {
-      if (user.length) {
-        res.json(user[0]);
-      } else {
-        res.status(400).json("Not Found");
-      }
-    })
-    .catch(err => res.status(400).json("Error getting user"));
+  profile.handleProfileGet(req, res, db);
 });
 
 // Get Fixtures
 app.get("/tips", (req, res) => {
-  // const { round } = req.params;
-  db.select("*")
-    .from("fixtures")
-    .where("date", ">=", 20190314)
-    .andWhere("date", "<", 20190516)
-    .then(round => {
-      console.log(round);
-      res.status(200).json(round);
-    })
-    .catch(error => {
-      res.status(400).json("Error getting fixtures");
-    });
-  // .then(user => {
-  //   if (user.length) {
-  //     res.json(user[0]);
-  //   } else {
-  //     res.status(400).json("Not Found");
-  //   }
-  // })
-  // .catch(err => res.status(400).json("Error getting user"));
+  fixtures.handleFixturesGet(req, res, db);
 });
 
+//image --> PUT --> user
 app.put("/image", (req, res) => {
-  const { id } = req.body;
-  db("users")
-    .where("id", "=", id)
-    .increment("entries", 1)
-    .returning("entries")
-    .then(entries => {
-      res.json(entries[0]);
-    })
-    .catch(err => res.status(400).json("unable to get entries"));
+  image.handleImage(req, res, db);
 });
 
 app.listen(port, () => {

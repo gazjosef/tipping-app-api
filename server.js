@@ -5,6 +5,7 @@ const cors = require("cors");
 const knex = require("knex");
 
 const register = require("./controllers/register");
+const signin = require("./controllers/signin");
 
 const db = knex({
   client: "pg",
@@ -64,29 +65,8 @@ app.get("/", (req, res) => {
 // /signin --> POST = success/fail
 
 app.post("/signin", (req, res) => {
-  // Load hash from your password DB.
-  bcrypt.compare(
-    "mangoes",
-    "$2a$10$xDDkYgRO5eKn6hXRCbxBneAxKn9W2iVcPjoSl1v0AmdriJjYz52dG",
-    function(err, res) {
-      console.log("first guess", res);
-    }
-  );
-  bcrypt.compare(
-    "veggies",
-    "$2a$10$xDDkYgRO5eKn6hXRCbxBneAxKn9W2iVcPjoSl1v0AmdriJjYz52dG",
-    function(err, res) {
-      console.log("second guess", res);
-    }
-  );
-  if (
-    req.body.email === database.users[0].email &&
-    req.body.password === database.users[0].password
-  ) {
-    res.json(database.users[0]);
-  } else {
-    res.status(400).json("error logging in");
-  }
+  console.log("in signin");
+  signin.handleSignin(req, res, db, bcrypt);
 });
 
 // /register --> POST = user

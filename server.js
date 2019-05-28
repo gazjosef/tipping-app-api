@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt-nodejs");
 const cors = require("cors");
 const knex = require("knex");
 
+const register = require("./controllers/register");
+
 const db = knex({
   client: "pg",
   connection: {
@@ -15,7 +17,7 @@ const db = knex({
 });
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -59,6 +61,8 @@ app.get("/", (req, res) => {
   res.send(database.users);
 });
 
+// /signin --> POST = success/fail
+
 app.post("/signin", (req, res) => {
   // Load hash from your password DB.
   bcrypt.compare(
@@ -85,39 +89,13 @@ app.post("/signin", (req, res) => {
   }
 });
 
+// /register --> POST = user
+
 app.post("/register", (req, res) => {
-  const { email, name, password } = req.body;
-  const hash = bcrypt.hashSync(password);
-  db.transaction(trx => {
-    trx
-      .insert({
-        hash: hash,
-        email: email
-      })
-      .into("login")
-      .returning("email")
-      .then(loginEmail => {
-        return trx("users")
-          .returning("*")
-          .insert({
-            email: loginEmail[0],
-            name: name,
-            joined: new Date()
-          })
-          .then(user => {
-            res.json(user[0]);
-          });
-      })
-      .then(trx, commit)
-      .catch(trx, rollback);
-  }).catch(err => {
-    let errMsg = {
-      error: err,
-      message: "unable to register"
-    };
-    res.status(400).json(errMsg);
-  });
+  register.handleRegister(req, res, db, bcrypt);
 });
+
+// *** Dependency injection
 
 app.get("/profile/:id", (req, res) => {
   const { id } = req.params;
@@ -171,7 +149,7 @@ app.put("/image", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("app is running on port 3000");
+  console.log("app is running on port " + port);
 });
 
 /*

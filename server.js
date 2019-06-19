@@ -22,6 +22,7 @@ const db = knex({
 
 const app = express();
 const port = process.env.PORT || 5000;
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -61,6 +62,17 @@ const database = {
   ]
 };
 
+// *******
+// const server = http.createServer((req, res) => {
+//   res.statusCode = 200;
+//   res.setHeader("Content-Type", "text/html");
+//   res.end("<h1>Hello World</h1>");
+// });
+// server.listen(port, () => {
+//   console.log(`Server running at port ` + port);
+// });
+// *******
+
 app.get("/", (req, res) => {
   res.send(database.users);
 });
@@ -74,18 +86,19 @@ app.post("/signin", (req, res) => {
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
 });
-
 // *** Dependency injection
+
+// /profile/:userId --> GET = user
 app.get("/profile/:id", (req, res) => {
   profile.handleProfileGet(req, res, db);
 });
 
-// Get Fixtures
+// /fixtures --> GET = Fixtures
 app.get("/tips", (req, res) => {
   fixtures.handleFixturesGet(req, res, db);
 });
 
-//image --> PUT --> user
+// /image --> PUT --> user
 app.put("/image", (req, res) => {
   image.handleImage(req, res, db);
 });

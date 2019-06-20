@@ -13,10 +13,13 @@ const image = require("./controllers/image");
 const db = knex({
   client: "pg",
   connection: {
-    host: "127.0.0.1",
-    user: "postgres",
-    password: "",
-    database: "tippingapp"
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+    // connection: {
+    //   host: "127.0.0.1",
+    //   user: "postgres",
+    //   password: "",
+    //   database: "tippingapp"
   }
 });
 
@@ -61,17 +64,6 @@ const database = {
     }
   ]
 };
-
-// *******
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader("Content-Type", "text/html");
-//   res.end("<h1>Hello World</h1>");
-// });
-// server.listen(port, () => {
-//   console.log(`Server running at port ` + port);
-// });
-// *******
 
 app.get("/", (req, res) => {
   res.send(database.users);

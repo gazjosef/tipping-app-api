@@ -27,47 +27,11 @@ const db = knex({
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(bodyParser.json());
 app.use(cors());
-
-const database = {
-  users: [
-    {
-      id: "1",
-      name: "kain",
-      email: "kain@gmail.com",
-      password: "apples",
-      entries: 0,
-      joined: new Date()
-    },
-    {
-      id: "2",
-      name: "dan",
-      email: "dan@gmail.com",
-      password: "bananas",
-      entries: 0,
-      joined: new Date()
-    },
-    {
-      id: "3",
-      name: "gareth",
-      email: "gareth@gmail.com",
-      password: "oranges",
-      entries: 0,
-      joined: new Date()
-    }
-  ],
-  login: [
-    {
-      id: "987",
-      hash: "",
-      email: "kain@gmail.com"
-    }
-  ]
-};
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send(database.users);
+  res.send("it is working!");
 });
 
 // /signin --> POST = success/fail

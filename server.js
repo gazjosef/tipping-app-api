@@ -51,7 +51,7 @@ app.get("/profile/:id", (req, res) => {
 });
 
 // /fixtures --> GET = Fixtures
-app.get("/tips", (req, res) => {
+app.get("/fixtures", (req, res) => {
   fixtures.handleFixturesGet(req, res, db);
 });
 

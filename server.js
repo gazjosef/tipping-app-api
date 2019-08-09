@@ -55,6 +55,11 @@ app.get("/fixtures", (req, res) => {
   fixtures.handleFixturesGet(req, res, db);
 });
 
+// /table --> GET = Fixtures/Table
+app.get("/table", (req, res) => {
+  fixtures.handleTableGet(req, res, db);
+});
+
 // /image --> PUT --> user
 app.put("/image", (req, res) => {
   image.handleImage(req, res, db);

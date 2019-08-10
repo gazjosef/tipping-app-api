@@ -8,6 +8,7 @@ const register = require("./controllers/register");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const fixtures = require("./controllers/fixtures");
+const table = require("./controllers/table");
 const image = require("./controllers/image");
 
 const db = knex({
@@ -57,7 +58,7 @@ app.get("/fixtures", (req, res) => {
 
 // /table --> GET = Fixtures/Table
 app.get("/table", (req, res) => {
-  fixtures.handleTableGet(req, res, db);
+  table.handleTableGet(req, res, db);
 });
 
 // /image --> PUT --> user

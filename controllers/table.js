@@ -4,7 +4,7 @@ const handleTableGet = (req, res, db) => {
   db.select("*")
     .from("fixtures")
     .where("date", ">=", 20190314)
-    .andWhere("date", "<", 20190809)
+    .andWhere("date", "<", 20190721)
     .then(round => {
       console.log(round);
       res.status(200).json(round);

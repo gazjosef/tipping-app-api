@@ -43,7 +43,7 @@ app.post("/register", (req, res) => {
 
 // /tips --> POST = tips
 app.post("/tips", (req, res) => {
-  tips.handleRegister(req, res, db);
+  tips.handleTips(req, res, db);
 });
 
 // /profile/:userId --> GET = user

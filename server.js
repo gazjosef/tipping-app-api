@@ -9,6 +9,7 @@ const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const fixtures = require("./controllers/fixtures");
 const table = require("./controllers/table");
+const tips = require("./controllers/tips");
 const image = require("./controllers/image");
 
 const db = knex({
@@ -39,6 +40,11 @@ app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
 });
 // *** Dependency injection
+
+// /tips --> POST = tips
+app.post("/tips", (req, res) => {
+  tips.handleRegister(req, res, db);
+});
 
 // /profile/:userId --> GET = user
 app.get("/profile/:id", (req, res) => {

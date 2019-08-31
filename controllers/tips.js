@@ -1,11 +1,11 @@
 const handleTips = (req, res, db) => {
-  const { fixtureid, tip } = req.body;
+  const { fixture_id, selection } = req.body;
 
   db.transaction(trx => {
     trx
       .insert({
-        fixtureid: fixtureid,
-        tip: tip
+        fixture_id: fixture_id,
+        selection: selection
       })
       .into("tips")
 

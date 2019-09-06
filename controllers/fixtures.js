@@ -4,7 +4,7 @@ const handleFixturesGet = (req, res, db) => {
   db.select("*")
     .from("fixtures")
     .where("date", ">=", 20190314)
-    .andWhere("date", "<=", 20190908)
+    .andWhere("date", "<=", 20190317)
     .then(round => {
       console.log(round);
       res.status(200).json(round);

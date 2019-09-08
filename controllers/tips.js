@@ -1,11 +1,15 @@
 const handleTips = (req, res, db) => {
-  const { fixture_id, selection } = req.body;
+  const { userid, fixtureid, selection } = req.body;
+  console.log("userid: ", userid);
+  console.log("fixtureid: ", fixtureid);
+  console.log("selection: ", selection);
 
   db.transaction(trx => {
     trx
       .insert({
-        fixture_id: fixture_id,
-        selection: selection
+        userid: userid,
+        fixtureid: fixtureid,
+        tip: selection
       })
       .into("tips")
 
@@ -34,7 +38,7 @@ const handleTips = (req, res, db) => {
   }).catch(err => {
     let errMsg = {
       error: err,
-      message: "unable to register"
+      message: "unable to tip"
     };
     res.status(400).json(errMsg);
   });

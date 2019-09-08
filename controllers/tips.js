@@ -7,9 +7,9 @@ const handleTips = (req, res, db) => {
   db.transaction(trx => {
     trx
       .insert({
-        userid: userid,
-        fixtureid: fixtureid,
-        tip: selection
+        user_id: userid,
+        fixture_id: fixtureid,
+        selection: selection
       })
       .into("tips")
       .then(trx.commit)

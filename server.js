@@ -12,13 +12,8 @@ const table = require("./controllers/table");
 const tips = require("./controllers/tips");
 const image = require("./controllers/image");
 
-const db = knex({
-  client: "pg",
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-  }
-});
+let dbConnectionInfo = getDbConnectionInfo();
+const db = knex(dbConnectionInfo);
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -78,3 +73,26 @@ app.listen(port, () => {
 /image --> PUT --> user
 
 */
+function getDbConnectionInfo() {
+  if (process.env.DATABASE_URL === undefined) {
+    console.log("Local database connection");
+    return {
+      client: "pg",
+      connection: {
+        host: "127.0.0.1",
+        user: "postgres",
+        password: "",
+        database: "tippingapp"
+      }
+    };
+  } else {
+    console.log("Heroku database connection");
+    return {
+      client: "pg",
+      connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: true
+      }
+    };
+  }
+}

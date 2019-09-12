@@ -11,6 +11,8 @@ const fixtures = require("./controllers/fixtures");
 const table = require("./controllers/table");
 const tips = require("./controllers/tips");
 const image = require("./controllers/image");
+const users = require("./controllers/users");
+const comp = require("./controllers/comp");
 
 let dbConnectionInfo = getDbConnectionInfo();
 const db = knex(dbConnectionInfo);
@@ -30,6 +32,8 @@ app.post("/signin", (req, res) => {
   signin.handleSignin(req, res, db, bcrypt);
 });
 
+// POSTS
+
 // /register --> POST = user
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt);
@@ -40,6 +44,8 @@ app.post("/register", (req, res) => {
 app.post("/tips", (req, res) => {
   tips.handleTips(req, res, db);
 });
+
+// GET
 
 // /profile/:userId --> GET = user
 app.get("/profile/:id", (req, res) => {
@@ -55,6 +61,18 @@ app.get("/fixtures", (req, res) => {
 app.get("/table", (req, res) => {
   table.handleTableGet(req, res, db);
 });
+
+// /comp --> GET = Tips
+app.get("/comp", (req, res) => {
+  comp.handleTipsGet(req, res, db);
+});
+
+// /users --> GET = Users
+app.get("/users", (req, res) => {
+  users.handleUsers(req, res, db);
+});
+
+// PUT
 
 // /image --> PUT --> user
 app.put("/image", (req, res) => {
